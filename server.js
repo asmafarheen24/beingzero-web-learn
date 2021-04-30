@@ -6,7 +6,7 @@ app.get("/", function(req, res){
     res.send("Welcome to  Farheen's Basic Site");
 })
 app.get("/resume", function(req, res){
-    res.send("This is my resume page");
+    //res.send("This is my resume page");
     let i=__dirname+"/resume.html"
    res.sendFile(i);
 
