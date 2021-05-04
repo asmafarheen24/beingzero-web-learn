@@ -12,6 +12,12 @@ app.get("/resume", function(req, res){
    res.sendFile(i);
 
 });
+app.get("/apple", function(req, res){
+    
+    let x=__dirname+"/frontend/html files/apple.html";
+   res.sendFile(x);
+
+});
 app.get("/google", function(req,res){
     let z=__dirname+"/frontend/html files/google.html";
     res.sendFile(z);
