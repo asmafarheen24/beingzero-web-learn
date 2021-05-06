@@ -4,6 +4,7 @@ body {
     display: grid;
     place-items: center;
     height: 100vh;
+    background-color: aqua;
 }
 body{
     background: black;
@@ -13,7 +14,7 @@ body{
     width: 250px;
     background:white;
     border-radius: 10px;
-    display: grid;
+    
     place-items: center;
     color:black;
     

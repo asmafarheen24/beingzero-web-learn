@@ -24,6 +24,12 @@ app.get("/rgb", function(req, res){
    res.sendFile(y);
 
 });
+app.get("/signin", function(req, res){
+    
+    let s=__dirname+"/frontend/html files/login.html";
+   res.sendFile(s);
+
+});
 app.get("/google", function(req,res){
     let z=__dirname+"/frontend/html files/google.html";
     res.sendFile(z);
