@@ -18,6 +18,12 @@ app.get("/apple", function(req, res){
    res.sendFile(x);
 
 });
+app.get("/rgb", function(req, res){
+    
+    let y=__dirname+"/frontend/html files/rgb.html";
+   res.sendFile(y);
+
+});
 app.get("/google", function(req,res){
     let z=__dirname+"/frontend/html files/google.html";
     res.sendFile(z);
