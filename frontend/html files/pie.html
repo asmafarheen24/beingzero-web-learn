@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Overview</title>
+    <link rel="stylesheet" href="/css files/pie.css">
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+    
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+        
+      function drawChart() {
+
+        var data = google.visualization.arrayToDataTable([
+          ['Platform', 'Problems solved'],
+          ['Leetcode Solved',     23],
+          ['Codechef Solved',      3],
+          ['Codeforces Solved',  0],
+          ['Vjudge Solved', 112],
+          ['Mentor  pick Solved',    108]
+        ]);
+
+        var options = {
+          title: 'OverView'
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+        chart.draw(data, options);
+      }
+    </script>
+</head>
+<body>
+    <div id="piechart" class="chart"></div>
+</body>
+</html>
