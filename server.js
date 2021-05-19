@@ -1,18 +1,40 @@
 const express = require('express');
-const courseLib = require('./backend/lib/courselib');
- 
-const app = express();
 const mongoose = require('mongoose');
- app.use(express.static(__dirname+"/frontend"));
- var password = process.env.Mongo_atlas_password;
+const courselib = require('./backend/lib/courselib');
+var password = process.env.Mongo_atlas_password;
  console.log(password)
-var connectionString = "mongodb+srv://Farheen:"+password+"@cluster0.i9xkl.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
- 
-mongoose.connect(connectionString, {});
-mongoose.connection.on('connected', function(){
-    console.log("Database connected");
+var connectionString = "mongodb+srv://Farheen:Shannudb3562@cluster0.i9xkl.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
+mongoose.connect(connectionString,{useNewUrlParser: true,useUnifiedTopology: true});
+mongoose.connection.on('connected',function(){
+    console.log("Database Connected");
+})
 
+const app = express();
+app.use(express.static(__dirname+"/frontend"));
+ 
+   app.use(express.urlencoded({extended: true}));
+ app.use(express.json());
+ 
+
+ 
+mongoose.connect(connectionString, {useFindAndModify: false});
+var db = mongoose.connection;
+db.on('connected', function () {
+console.log('MongoDB connected!');
 });
+//db.collection.deleteMany({});
+
+
+db.on('error', function (error) {
+console.error('Error in MongoDb connection: ' + error);
+});
+
+db.on('disconnected', function () {
+console.log('MongoDB disconnected!');
+});
+
+
+
  
 app.get("/", function(req, res){
     res.send("Welcome to  Farheen's Basic Site");
@@ -25,12 +47,15 @@ app.get("/resume", function(req, res){
 });
 app.get("/crud", function(req, res){
     
-    let i=__dirname+"/frontend/html files/course.html";
+    let i=__dirname+"/frontend/html files/crud.html";
    res.sendFile(i);
 
 });
-app.get('/api/courses', courseLib.getallcourses);
-app.post('/api/courses', courseLib.createcourse);
+
+app.get("/crud", courselib.getall);
+app.delete("/crud/:idd", courselib.deleteone);
+app.post("/crud",courselib.addnewone);
+app.put("/crud/:idd", courselib.update);
 
 app.get("/apple", function(req, res){
     
@@ -81,5 +106,5 @@ const PORT = process.env.PORT || 3000;
 
 // Start the server
 app.listen(PORT, function(){
-    console.log("Server Starting running on http://localhost:"+PORT);
+    console.log("Server Starting running on http://localhost:3000");
 })

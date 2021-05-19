@@ -11,5 +11,5 @@ mongoose.connection.on('connected', function(){
 
 
 courselib.createcourse({coursename:'mean stack course'},function(err,course){
-    console.log("course");
+    console.log(course);
 });
