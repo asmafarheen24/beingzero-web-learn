@@ -109,5 +109,5 @@ app.get("/google", function(req,res){
 
 // Start the server
 app.listen(config.webPort, function(){
-    console.log("Server Starting running on http://localhost:3000");
+    console.log("Server Starting running on http://localhost:"+config.webPort);
 })
