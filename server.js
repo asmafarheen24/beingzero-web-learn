@@ -1,37 +1,40 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const path=require('path')
+const config=require('./backend/config/config');
 const courselib = require('./backend/lib/courselib');
+const dbConectLib=require('./backend/lib/dbConnectLib');
 var password = process.env.Mongo_atlas_password;
  console.log(password)
-var connectionString = "mongodb+srv://Farheen:Shannudb3562@cluster0.i9xkl.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
-mongoose.connect(connectionString,{useNewUrlParser: true,useUnifiedTopology: true});
-mongoose.connection.on('connected',function(){
-    console.log("Database Connected");
-})
+var connectionString = config.mongoConnectionString//"mongodb+srv://Farheen:Shannudb3562@cluster0.i9xkl.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
+// mongoose.connect(connectionString,{useNewUrlParser: true,useUnifiedTopology: true});
+// mongoose.connection.on('connected',function(){
+//     console.log("Database Connected");
+// })
 
 const app = express();
 app.use(express.static(__dirname+"/frontend"));
  
    app.use(express.urlencoded({extended: true}));
  app.use(express.json());
- 
+ dbConectLib.connect();
 
  
-mongoose.connect(connectionString, {useFindAndModify: false});
-var db = mongoose.connection;
-db.on('connected', function () {
-console.log('MongoDB connected!');
-});
+// mongoose.connect(connectionString, {useFindAndModify: false});
+// var db = mongoose.connection;
+// db.on('connected', function () {
+// console.log('MongoDB connected!');
+// });
 //db.collection.deleteMany({});
 
 
-db.on('error', function (error) {
-console.error('Error in MongoDb connection: ' + error);
-});
+// db.on('error', function (error) {
+// console.error('Error in MongoDb connection: ' + error);
+// });
 
-db.on('disconnected', function () {
-console.log('MongoDB disconnected!');
-});
+// db.on('disconnected', function () {
+// console.log('MongoDB disconnected!');
+// });
 
 
 
@@ -102,9 +105,9 @@ app.get("/google", function(req,res){
 
 
 // Heroku will automatically set an environment variable called PORT
-const PORT = process.env.PORT || 3000;
+//const PORT = process.env.PORT || 3000;
 
 // Start the server
-app.listen(PORT, function(){
+app.listen(config.webPort, function(){
     console.log("Server Starting running on http://localhost:3000");
 })
