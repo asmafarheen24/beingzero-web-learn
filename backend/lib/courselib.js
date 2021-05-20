@@ -1,4 +1,4 @@
-var courseModel = require('../models/courseModel');
+var courseModel = require('../models/coursemodel');
 
 module.exports.getall = function(req,res)
 {
