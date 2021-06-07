@@ -7,10 +7,7 @@ const dbConectLib=require('./backend/lib/dbConnectLib');
 var password = process.env.Mongo_atlas_password;
  console.log(password)
 var connectionString = config.mongoConnectionString//"mongodb+srv://Farheen:Shannudb3562@cluster0.i9xkl.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
-// mongoose.connect(connectionString,{useNewUrlParser: true,useUnifiedTopology: true});
-// mongoose.connection.on('connected',function(){
-//     console.log("Database Connected");
-// })
+
 
 const app = express();
 app.use(express.static(__dirname+"/frontend"));
@@ -40,8 +37,16 @@ app.use(express.static(__dirname+"/frontend"));
 
  
 app.get("/", function(req, res){
-    res.send("Welcome to  Farheen's Basic Site");
+    
+    let k=__dirname+"/frontend/html files/index.html";
+   res.sendFile(k);
 })
+app.get("/login", function(req, res){
+    
+    let log=__dirname+"/frontend/html files/login1.html";
+   res.sendFile(log);
+
+});
 app.get("/resume", function(req, res){
     
     let i=__dirname+"/frontend/html files/resume.html";
