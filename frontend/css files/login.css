@@ -1,36 +1,7 @@
 body{
-    background-color: burlywood;
+    background-color: lightgreen;
 }
-h1{
-    text-align: center;
-    text-decoration-color: white;
-}
-.form{
-    text-align: center;
-    font-size: 130%;
-    text-justify: auto;
-}
-.div{
-    margin: 5px;
-    padding: 10px;
-    background-color:darkgrey;
-    align-items: center;
-}
-h4{
-    text-align: center;
-}
-/* .b1{
-    text-align: center;
-    padding: 3px 4px;
-    position: absolute;
-    margin: auto;
-    display: block;
-} */
-.divr{
-    padding: 15px;
-    background-color: darkslategrey;
-    align-items: center;
-}
-.table{
-    text-align:center;
+.btn btn-primary
+{
+    background-color: black;
 }

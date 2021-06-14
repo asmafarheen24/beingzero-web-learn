@@ -41,9 +41,9 @@ app.get("/", function(req, res){
     let k=__dirname+"/frontend/html files/index.html";
    res.sendFile(k);
 })
-app.get("/login", function(req, res){
+app.get("/dashboard", function(req, res){
     
-    let log=__dirname+"/frontend/html files/login1.html";
+    let log=__dirname+"/frontend/html files/dashboard.html";
    res.sendFile(log);
 
 });
@@ -77,9 +77,84 @@ app.get("/rgb", function(req, res){
    res.sendFile(y);
 
 });
+app.get("/login", function(req, res){
+    
+    let login=__dirname+"/frontend/html files/login.html";
+   res.sendFile(login);
+
+});
+app.get("/register", function(req, res){
+    
+    let register=__dirname+"/frontend/html files/register.html";
+   res.sendFile(register);
+
+});
+
+app.get("/api", function(req, res){
+    
+    var details= { name: "a",age:"29",clg:"cmr"}
+    res.send(details)
+
+});
+var userSchema = mongoose.Schema({
+    username : String,
+    email : String,
+    password : String,
+    isDeleted : {type:Boolean,default:false}
+    
+    
+    });
+    
+    
+var users = mongoose.model('users' , userSchema);
+
+app.post('/api/register', function(req,res){
+    users.find({email : req.body.email }, function (err, data) {
+        if(err){ res.status(400).json({msg:"Failed"}); }
+        else {//console.log(data);
+              if(data.length>0)
+              res.status(200).json({msg:"Saved Successful", result : data});
+              else
+              { 
+                
+                var add= new users(req.body);
+                add.save(function(err,record) {
+                if(err){
+                    res.redirect("/register");
+                }
+                else {
+                    res.redirect("/login");
+                   }
+                });
+              }
+             }
+    });
+})
+
+
+
+app.post('/api/login', function(req,res){
+    //console.log(req)
+    //res.send(req)
+    users.find(req.body , function (err, data) {
+        if(err){ res.status(400).json({msg:"Failed"}); }
+        else if(data.length==1)
+        {
+            res.redirect("/dashboard");
+              
+             }
+             else{
+                 res.redirect("/login");
+             }
+    });
+})
+
+app.get('/' , function(req,res){
+    res.send("welcome ");} )
+    
 app.get("/signin", function(req, res){
     
-    let s=__dirname+"/frontend/html files/login.html";
+    let s=__dirname+"/frontend/html files/sign-in.html";
    res.sendFile(s);
 
 });
