@@ -5,18 +5,32 @@ const config=require('./backend/config/config');
 const courselib = require('./backend/lib/courselib');
 const dbConectLib=require('./backend/lib/dbConnectLib');
 var password = process.env.Mongo_atlas_password;
- console.log(password)
+// console.log(password)
 var connectionString = config.mongoConnectionString//"mongodb+srv://Farheen:Shannudb3562@cluster0.i9xkl.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
 
-
+const { request } = require('express');
 const app = express();
-app.use(express.static(__dirname+"/frontend"));
- 
-   app.use(express.urlencoded({extended: true}));
- app.use(express.json());
- dbConectLib.connect();
 
  
+   
+ var cookieParser = require("cookie-parser")
+var session = require("express-session");
+const MongoStore = require('connect-mongo');
+ dbConectLib.connect();
+ app.use(session({
+    secret: "thi is secret!!!!",
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        maxAge: 60 * 60 * 1000
+    },
+    store: MongoStore.create({ mongoUrl: process.env.MONGO_CONNECTION_STRING })
+
+}))
+app.use(express.urlencoded({extended: true}));
+app.use(express.json());
+app.use(express.static(__dirname+"/frontend"));
+app.use(cookieParser());
 // mongoose.connect(connectionString, {useFindAndModify: false});
 // var db = mongoose.connection;
 // db.on('connected', function () {
@@ -147,6 +161,41 @@ app.post('/api/login', function(req,res){
                  res.redirect("/login");
              }
     });
+})
+var isAuthenticated = (req, res, next) => {
+    if (req.session && req.session.userid)
+        next();
+    else
+        return res.redirect("/login");
+}
+var isNotAuthenticated = (req, res, next) => {
+    if (!req.session || !req.session.userid)
+        next();
+    else
+        return res.redirect("/");
+}
+
+app.get("/", isAuthenticated, (req, res) => {
+    res.sendFile(__dirname + "/frontend/html files/dashboard.html")
+})
+
+app.get("/getdetails", isAuthenticated, (req, res) => {
+    res.json({
+        username: req.session.username
+    });
+})
+app.get("/api/logout", isAuthenticated, (req, res) => {
+    req.session.destroy(err => {
+        if (err)
+            return res.status(404).json({
+                err: "error"
+            })
+    })
+
+    return res.status(200).json({
+        message: "succcessfully signout"
+    })
+
 })
 
 app.get('/' , function(req,res){
